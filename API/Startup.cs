@@ -1,3 +1,4 @@
+using API.Setups;
 using Application.Handlers;
 using Infrastructure.Data;
 using Infrastructure.Helpers;
@@ -26,6 +27,7 @@ namespace API
             services.AddData(_configuration.GetConnectionString("DefaultConnection"), _environment.IsDevelopment());
             services.AddHandlers();
             services.AddHelpers();
+            services.AddSwagger();
 
             services.AddControllers();
         }
@@ -39,10 +41,10 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
+
+            app.UseSwaggerSetup();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
