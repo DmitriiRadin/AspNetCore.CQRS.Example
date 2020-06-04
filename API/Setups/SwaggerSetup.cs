@@ -8,7 +8,11 @@ namespace API.Setups
     {
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            services.AddSwaggerGen(swagger => { swagger.SwaggerDoc("v1", new OpenApiInfo {Title = "My API"}); });
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.CustomSchemaIds(x => x.FullName);
+                swagger.SwaggerDoc("v1", new OpenApiInfo {Title = "My API"});
+            });
 
             return services;
         }

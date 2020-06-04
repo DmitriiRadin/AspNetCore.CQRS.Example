@@ -13,7 +13,8 @@ namespace API.Controllers
 
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        protected IActionResult CommandResponse<T>(CommandResponse<T> response,
+        protected IActionResult CommandResponse<T>(
+            CommandResponse<T> response,
             HttpStatusCode onSuccessHttpCode = HttpStatusCode.OK,
             Func<Failure, HttpStatusCode> onFailureHttpCodeFunc = null)
         {
