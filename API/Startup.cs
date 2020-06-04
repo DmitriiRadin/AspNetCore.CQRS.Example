@@ -1,3 +1,6 @@
+using Application.Handlers;
+using Infrastructure.Data;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,16 +11,22 @@ namespace API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            _configuration = configuration;
+            _environment = environment;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddData(_configuration.GetConnectionString("DefaultConnection"), _environment.IsDevelopment());
+            services.AddHandlers();
+            services.AddHelpers();
+
             services.AddControllers();
         }
 
@@ -35,10 +44,7 @@ namespace API
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
