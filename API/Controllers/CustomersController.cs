@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using Application.Handlers.Base.Failures;
+﻿using System.Threading.Tasks;
 using Application.Handlers.Customers.Commands;
 using Application.Handlers.Customers.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -26,13 +24,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterCustomer(RegisterCustomer.Request request)
         {
-            return CommandResponse(await Mediator.Send(request),
-                HttpStatusCode.Created,
-                failure => failure switch
-                {
-                    ConflictFailure _ => HttpStatusCode.Conflict,
-                    _ => HttpStatusCode.BadRequest
-                });
+            return CreatedCommandResponse(await Mediator.Send(request));
         }
     }
 }

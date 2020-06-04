@@ -22,4 +22,12 @@
     <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="OrderItems\Commands\" />
+    <Folder Include="OrderItems\Queries\" />
+    <Folder Include="Orders\Commands\" />
+    <Folder Include="Orders\Queries\" />
+    <Folder Include="Products\Queries\" />
+  </ItemGroup>
+
 </Project>

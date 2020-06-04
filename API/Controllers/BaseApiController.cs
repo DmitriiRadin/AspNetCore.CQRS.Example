@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using Application.Handlers.Base;
+using Application.Handlers.Base.Failures;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,18 @@ namespace API.Controllers
             var failureCode = onFailureHttpCodeFunc?.Invoke(response.Failure) ?? HttpStatusCode.BadRequest;
 
             return StatusCode((int) failureCode, response.Failure.FailureReason);
+        }
+
+        protected IActionResult CreatedCommandResponse<T>(
+            CommandResponse<T> response)
+        {
+            return CommandResponse(response,
+                HttpStatusCode.Created,
+                failure => failure switch
+                {
+                    ConflictFailure _ => HttpStatusCode.Conflict,
+                    _ => HttpStatusCode.BadRequest
+                });
         }
     }
 }

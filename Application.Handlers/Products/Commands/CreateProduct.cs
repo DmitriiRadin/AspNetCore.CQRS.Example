@@ -1,47 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Handlers.Base;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Handlers.Customers.Queries
+namespace Application.Handlers.Products.Commands
 {
-    public static class GetCustomers
+    public static class CreateProduct
     {
         public class Request : IRequest<CommandResponse<Response>>
         {
+            public string Title { get; set; }
+            public string Description { get; set; }
         }
 
         public class RequestValidator : AbstractValidator<Request>
         {
             public RequestValidator()
             {
+                RuleFor(p => p.Title).NotEmpty();
+                RuleFor(p => p.Description).NotEmpty();
             }
         }
 
         public class Response
         {
-            public IEnumerable<CustomerModel> CustomerCollection { get; set; }
-
-            public class CustomerModel
-            {
-                public Guid Id { get; set; }
-
-                public string FirstName { get; set; }
-                public string LastName { get; set; }
-                public string PhoneNumber { get; set; }
-                public string Email { get; set; }
-
-                public DateTime? BirthDay { get; set; }
-                public DateTime RegistrationDate { get; set; }
-            }
+            public Guid Id { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, CommandResponse<Response>>
@@ -57,13 +48,20 @@ namespace Application.Handlers.Customers.Queries
 
             public async Task<CommandResponse<Response>> Handle(Request request, CancellationToken cancellationToken)
             {
-                var customers = await _context.Customers
-                    .ProjectTo<Response.CustomerModel>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
-                return CommandResponse<Response>.Success(new Response
+                var product = _mapper.Map<Product>(request);
+
+                _context.Add(product);
+
+                try
                 {
-                    CustomerCollection = customers
-                });
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+                catch (DbUpdateException exception)
+                {
+                    return CommandResponse<Response>.Fail(exception);
+                }
+
+                return CommandResponse<Response>.Success(_mapper.Map<Response>(product));
             }
         }
 
@@ -71,7 +69,8 @@ namespace Application.Handlers.Customers.Queries
         {
             public Mapping()
             {
-                CreateMap<Customer, Response.CustomerModel>();
+                CreateMap<Request, Product>();
+                CreateMap<Product, Response>();
             }
         }
     }
