@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -8,5 +9,8 @@ namespace Domain.Entities
 
         public string Title { get; set; }
         public string Description { get; set; }
+
+        public IEnumerable<OrderItem> OrderItems { get; set; }
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }
