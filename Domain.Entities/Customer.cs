@@ -16,5 +16,6 @@ namespace Domain.Entities
         public DateTime RegistrationDate { get; set; }
 
         public IEnumerable<Comment> Comments { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
     }
 }

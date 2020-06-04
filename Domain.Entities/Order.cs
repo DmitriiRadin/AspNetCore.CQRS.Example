@@ -12,5 +12,7 @@ namespace Domain.Entities
 
         public DateTime? InitialDate { get; set; }
         public DateTime? FinishedDate { get; set; }
+
+        public Customer Customer { get; set; }
     }
 }

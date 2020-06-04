@@ -8,6 +8,9 @@ namespace Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
+            builder.HasOne(p => p.Customer)
+                .WithMany(p => p.Orders)
+                .IsRequired();
         }
     }
 }
