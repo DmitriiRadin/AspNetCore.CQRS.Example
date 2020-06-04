@@ -17,9 +17,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterCustomer()
+        public async Task<IActionResult> RegisterCustomer(RegisterCustomer.Request request)
         {
-            await _mediator.Send(new RegisterCustomer.Request());
+            await _mediator.Send(request);
             return Ok();
         }
     }

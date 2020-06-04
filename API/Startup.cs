@@ -1,5 +1,6 @@
 using API.Setups;
 using Application.Handlers;
+using FluentValidation.AspNetCore;
 using Infrastructure.Data;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +30,9 @@ namespace API
             services.AddHelpers();
             services.AddSwagger();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(configuration =>
+                    configuration.RegisterValidatorsFromAssemblyContaining(typeof(HandlersSetup)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
