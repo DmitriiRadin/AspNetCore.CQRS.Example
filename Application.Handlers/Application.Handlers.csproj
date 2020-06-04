@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Handlers.Base\Application.Handlers.Base.csproj" />
+    <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>
