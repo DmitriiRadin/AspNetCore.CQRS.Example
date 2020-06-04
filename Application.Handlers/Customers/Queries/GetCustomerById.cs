@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Handlers.Base;
@@ -14,10 +12,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Handlers.Customers.Queries
 {
-    public static class GetCustomers
+    public static class GetCustomerById
     {
         public class Request : IRequest<CommandResponse<Response>>
         {
+            public Guid Id { get; set; }
         }
 
         public class RequestValidator : AbstractValidator<Request>
@@ -29,20 +28,15 @@ namespace Application.Handlers.Customers.Queries
 
         public class Response
         {
-            public IEnumerable<CustomerModel> CustomerCollection { get; set; }
+            public Guid Id { get; set; }
 
-            public class CustomerModel
-            {
-                public Guid Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string PhoneNumber { get; set; }
+            public string Email { get; set; }
 
-                public string FirstName { get; set; }
-                public string LastName { get; set; }
-                public string PhoneNumber { get; set; }
-                public string Email { get; set; }
-
-                public DateTime? BirthDay { get; set; }
-                public DateTime RegistrationDate { get; set; }
-            }
+            public DateTime? BirthDay { get; set; }
+            public DateTime RegistrationDate { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, CommandResponse<Response>>
@@ -58,13 +52,11 @@ namespace Application.Handlers.Customers.Queries
 
             public async Task<CommandResponse<Response>> Handle(Request request, CancellationToken cancellationToken)
             {
-                var customers = await _context.Customers
-                    .ProjectTo<Response.CustomerModel>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
-                return CommandResponse<Response>.Success(new Response
-                {
-                    CustomerCollection = customers
-                });
+                var customer = await _context.Customers
+                    .ProjectTo<Response>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+
+                return CommandResponse<Response>.Success(customer);
             }
         }
 
@@ -72,7 +64,7 @@ namespace Application.Handlers.Customers.Queries
         {
             public Mapping()
             {
-                CreateMap<Customer, Response.CustomerModel>();
+                CreateMap<Customer, Response>();
             }
         }
     }

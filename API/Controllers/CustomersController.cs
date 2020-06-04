@@ -17,6 +17,12 @@ namespace API.Controllers
             return CommandResponse(await Mediator.Send(new GetCustomers.Request()));
         }
 
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetCustomerById([FromRoute] GetCustomerById.Request request)
+        {
+            return CommandResponse(await Mediator.Send(request));
+        }
+
         [HttpPost]
         public async Task<IActionResult> RegisterCustomer(RegisterCustomer.Request request)
         {
