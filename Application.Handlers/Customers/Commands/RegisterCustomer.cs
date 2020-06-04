@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Handlers.Base;
 using FluentValidation;
 using MediatR;
 
@@ -8,7 +9,7 @@ namespace Application.Handlers.Customers.Commands
 {
     public static class RegisterCustomer
     {
-        public class Request : IRequest<Response>
+        public class Request : IRequest<CommandResponse<Response>>
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -32,11 +33,11 @@ namespace Application.Handlers.Customers.Commands
         {
         }
 
-        public class Handler : IRequestHandler<Request, Response>
+        public class Handler : IRequestHandler<Request, CommandResponse<Response>>
         {
-            public Task<Response> Handle(Request request, CancellationToken cancellationToken)
+            public Task<CommandResponse<Response>> Handle(Request request, CancellationToken cancellationToken)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
