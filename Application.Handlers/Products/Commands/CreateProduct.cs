@@ -13,7 +13,7 @@ namespace Application.Handlers.Products.Commands
 {
     public static class CreateProduct
     {
-        public class Request : IRequest<CommandResponse<Response>>
+        public class Request : ICommand<Response>
         {
             public string Title { get; set; }
             public string Description { get; set; }

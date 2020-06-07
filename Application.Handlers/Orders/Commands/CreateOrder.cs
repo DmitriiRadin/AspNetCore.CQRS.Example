@@ -14,7 +14,7 @@ namespace Application.Handlers.Orders.Commands
 {
     public static class CreateOrder
     {
-        public class Request : IRequest<CommandResponse<Response>>
+        public class Request : ICommand<Response>
         {
             public Guid CustomerId { get; set; }
         }

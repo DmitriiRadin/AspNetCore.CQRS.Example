@@ -14,7 +14,7 @@ namespace Application.Handlers.Customers.Queries
 {
     public static class GetCustomerById
     {
-        public class Request : IRequest<CommandResponse<Response>>
+        public class Request : IQuery<Response>
         {
             public Guid Id { get; set; }
         }

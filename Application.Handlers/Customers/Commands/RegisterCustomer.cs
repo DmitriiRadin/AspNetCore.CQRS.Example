@@ -14,7 +14,7 @@ namespace Application.Handlers.Customers.Commands
 {
     public static class RegisterCustomer
     {
-        public class Request : IRequest<CommandResponse<Response>>
+        public class Request : ICommand<Response>
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }

@@ -15,7 +15,7 @@ namespace Application.Handlers.Customers.Queries
 {
     public static class GetCustomers
     {
-        public class Request : IRequest<CommandResponse<Response>>
+        public class Request : IQuery<Response>
         {
         }
 

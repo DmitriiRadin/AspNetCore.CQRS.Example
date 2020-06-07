@@ -10,7 +10,7 @@ namespace Application.Handlers.Customers.Commands
 {
     public static class EditCustomer
     {
-        public class Request : IRequest<CommandResponse<Response>>
+        public class Request : ICommand<Response>
         {
         }
 
