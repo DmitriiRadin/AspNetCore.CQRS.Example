@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Handlers.Base\Application.Handlers.Base.csproj" />
+    <ProjectReference Include="..\Application.Handlers.Behaviours\Application.Handlers.Behaviours.csproj" />
     <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
     <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
